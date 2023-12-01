@@ -19,6 +19,6 @@ is also available.
 
 [phalanx]: https://www.rasch.co/phalanx
 [pcb documentation]: pcb/README.md
-[keymap guide]: keymap/README.md
+[keymap guide]: fw/README.md
 [pcb image]: https://cdn.jsdelivr.net/gh/rasch/phalanx@assets/phalanx-fpcb.webp
 [//]: https://en.wikipedia.org/wiki/Phalanx_bone

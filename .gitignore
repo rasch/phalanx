@@ -1,5 +1,5 @@
-*-backups
-*.kicad_prl
-*.lck
-fp-info-cache
-manufacturing
+dist
+pcb/*-backups
+pcb/*.kicad_prl
+pcb/*.lck
+pcb/fp-info-cache
