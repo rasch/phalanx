@@ -1,0 +1,205 @@
+#!/bin/sh
+
+BUILD_DIR=./dist
+PCB_DIR=./pcb
+PROJECT=phalanx
+
+_msg() {
+  printf '\e[32m%s %s\e[0m\n' "$1" "$2"
+}
+
+_err() {
+  printf '\e[31mError: %s %s\e[0m\n' "$2" "$3" >&2
+  exit "$1"
+}
+
+init() {
+  mkdir -p "$BUILD_DIR"
+}
+
+clean() {
+  rm -rf "$BUILD_DIR"
+}
+
+erc() {
+  init
+  _msg 'Generating Electrical Rule Check (ERC) report for' "$PROJECT".kicad_sch
+
+  kicad-cli sch erc \
+    --output "$BUILD_DIR"/erc.rpt \
+    --severity-all \
+    --exit-code-violations \
+    "$PCB_DIR"/"$PROJECT".kicad_sch
+
+  case $? in
+    0) : ;;
+    5) _err $? 'ERC violations found. See' "$BUILD_DIR"/erc.rpt ;;
+    *) _err $? 'Unable to generate ERC report' ;;
+  esac
+}
+
+drc() {
+  init
+  _msg 'Generating Design Rule Check (DRC) report for' "$PROJECT".kicad_pcb
+
+  kicad-cli pcb drc \
+    --output "$BUILD_DIR"/drc.rpt \
+    --severity-all \
+    --exit-code-violations \
+    "$PCB_DIR"/"$PROJECT".kicad_pcb
+
+  case $? in
+    0) : ;;
+    5) _err $? 'DRC violations found. See' "$BUILD_DIR"/drc.rpt ;;
+    *) _err $? 'Unable to generate DRC report' ;;
+  esac
+}
+
+reports() {
+  erc && drc
+}
+
+gerbers() {
+  init
+  _msg 'Generating Gerber files for' "$PROJECT".kicad_pcb
+
+  kicad-cli pcb export gerbers \
+    --output "$BUILD_DIR"/ \
+    --layers F.Cu,B.Cu,F.Paste,B.Paste,F.Silkscreen,B.Silkscreen,F.Mask,B.Mask,Edge.Cuts \
+    --exclude-value \
+    --subtract-soldermask \
+    "$PCB_DIR"/"$PROJECT".kicad_pcb
+
+  case $? in
+    0) rm -f "$BUILD_DIR"/"$PROJECT"-job.gbrjob ;;
+    *) _err $? 'Unable to generate Gerber files' ;;
+  esac
+}
+
+drill() {
+  init
+  _msg 'Generating Drill files for' "$PROJECT".kicad_pcb
+
+  kicad-cli pcb export drill \
+    --output "$BUILD_DIR"/ \
+    --format excellon \
+    --drill-origin absolute \
+    --excellon-zeros-format decimal \
+    --excellon-units mm \
+    --excellon-separate-th \
+    --excellon-oval-format alternate \
+    --generate-map \
+    --map-format gerberx2 \
+    "$PCB_DIR"/"$PROJECT".kicad_pcb
+
+  case $? in
+    0) : ;;
+    *) _err $? 'Unable to generate Drill files' ;;
+  esac
+}
+
+plot() {
+  gerbers && drill
+  _msg 'Creating plot.zip from gerber and drill files'
+  zip --junk-paths "$BUILD_DIR"/plot.zip "$BUILD_DIR"/"$PROJECT"-*
+  rm -f "$BUILD_DIR"/"$PROJECT"-*
+  test -f "$BUILD_DIR"/plot.zip || _err 2 'Unable to generate plot.zip file'
+}
+
+cpl() {
+  init
+  _msg 'Generating Component Placement List (CPL) for' "$PROJECT".kicad_pcb
+
+  _pos=$(mktemp)
+  trap 'rm -f "$_pos"' EXIT INT TERM
+
+  kicad-cli pcb export pos \
+    --output "$_pos" \
+    --side front \
+    --units mm \
+    "$PCB_DIR"/"$PROJECT".kicad_pcb
+
+  while read -r ref _ _ midx midy rot layer; do
+    case $ref in K*|\#*) continue; esac
+    printf '%s,%.4f,%.4f,%s,%.0f\n' "$ref" "$midx" "$midy" "$layer" "$rot"
+  done < "$_pos" > "$BUILD_DIR"/cpl.csv
+
+  test -f "$BUILD_DIR"/cpl.csv || _err 2 'Unable to generate CPL file'
+  sed -i '1i Designator,Mid X,Mid Y,Layer,Rotation' "$BUILD_DIR"/cpl.csv
+}
+
+bom() {
+  init
+  _msg 'Generating Bill of Materials (BOM) for' "$PROJECT".kicad_sch
+
+  _bom=$(mktemp)
+  trap 'rm -rf "$_bom"' EXIT INT TERM
+
+  kicad-cli sch export bom \
+    --output "$_bom" \
+    --fields 'Reference,Value,Footprint,LCSC Part' \
+    --labels 'Designator,Comment,Footprint,LCSC Part #' \
+    --group-by Value \
+    --field-delimiter ';' \
+    --string-delimiter '' \
+    --ref-range-delimiter '' \
+    "$PCB_DIR"/"$PROJECT".kicad_sch 
+
+  while IFS=\; read -r refs value footprint lcsc; do
+    case $refs in *,*) refs="\"$refs\""; esac
+    case $value in *,*) value="\"$value\""; esac
+    case $footprint in
+      *,*) footprint="\"$footprint\"" ;;
+      *MountingHole*) continue ;;
+      *Choc_PG1350*) continue ;;
+    esac
+    printf '%s,%s,%s,%s\n' "$value" "$refs" "$footprint" "$lcsc"
+  done < "$_bom" > "$BUILD_DIR"/bom.csv
+
+  test -f "$BUILD_DIR"/bom.csv || _err 2 "Unable to generate BOM file"
+}
+
+ibom() {
+  init
+  _msg 'Generating Interactive BOM for' "$PROJECT".kicad_pcb
+
+  _ibom=$(mktemp -d)
+  _netlist=$(mktemp -u).net
+  trap 'rm -rf "$_ibom" "$_netlist"' EXIT INT TERM
+
+  git clone --depth 1 https://github.com/openscopeproject/InteractiveHtmlBom.git "$_ibom"
+
+  kicad-cli sch export netlist \
+    --output "$_netlist" \
+    "$PCB_DIR"/"$PROJECT".kicad_sch
+
+  INTERACTIVE_HTML_BOM_NO_DISPLAY=1 python3 \
+    "$_ibom"/InteractiveHtmlBom/generate_interactive_bom.py \
+    --layer-view F \
+    --no-browser \
+    --dest-dir ../"$BUILD_DIR"/ \
+    --blacklist 'K*' \
+    --netlist-file "$_netlist" \
+    --extra-fields 'LCSC Part,Part Name' \
+    "$PCB_DIR"/"$PROJECT".kicad_pcb
+
+  test -f "$BUILD_DIR"/ibom.html || _err 2 "Unable to generate IBOM file"
+}
+
+build() {
+  clean && init && reports && plot && cpl && bom && ibom
+}
+
+help() {
+  echo "$0 <task> <args>"
+  echo "Tasks:"
+  sed -n 's/^\([a-z][a-z_]\+\)() {/\1/p' "$0" | cat -n
+}
+
+"${@:-help}"
+
+# REFERENCES
+# https://docs.kicad.org/master/en/cli/cli.html
+# https://jlcpcb.com/help/article/362-how-to-generate-gerber-and-drill-files-in-kicad-7
+# https://jlcpcb.com/help/article/81-How-to-generate-the-BOM-and-Centroid-file-from-KiCAD
+# https://github.com/openscopeproject/InteractiveHtmlBom/wiki/Usage
