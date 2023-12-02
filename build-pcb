@@ -1,0 +1,10 @@
+#!/bin/sh
+
+podman run \
+  --env HOME=/home/kicad \
+  --rm \
+  --user 0 \
+  --volume "$(pwd)":/data \
+  --workdir /data \
+  docker.io/kicad/kicad:nightly \
+  ./run "${1:-build}"

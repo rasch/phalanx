@@ -1,0 +1,36 @@
+name: PCB
+on:
+  push:
+    tags:
+    - 'v*.*.*'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    container:
+      image: kicad/kicad:nightly
+      options: --user root
+      env:
+        KICAD_CONFIG_HOME: /home/kicad/.config/kicad
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: |
+          ./run build
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: |
+            For the DIYers that want to build a [Phalanx keyboard](https://www.rasch.co/phalanx).
+
+            - plot.zip ...... gerber and drill files
+            - bom.csv ....... bill of materials
+            - cpl.csv ....... component placement list
+            - ibom.html ..... interactive BOM/CPL
+          files: |
+            dist/plot.zip
+            dist/bom.csv
+            dist/cpl.csv
+            dist/ibom.html
