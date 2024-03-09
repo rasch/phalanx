@@ -1,6 +1,7 @@
 #!/bin/sh
 
 BUILD_DIR=./dist
+FW_DIR=./fw
 PCB_DIR=./pcb
 PROJECT=phalanx
 
@@ -186,8 +187,43 @@ ibom() {
   test -f "$BUILD_DIR"/ibom.html || _err 2 "Unable to generate IBOM file"
 }
 
-build() {
+pcb() {
   clean && _init && reports && plot && cpl && bom && ibom
+}
+
+fw() {
+  _init
+
+  if ! test -d /root/qmk_firmware; then
+    python3 -m pip install qmk
+    qmk setup --yes
+
+    mkdir -p /etc/udev/rules.d
+    cp -a /root/qmk_firmware/util/udev/50-qmk.rules /etc/udev/rules.d/
+  fi
+
+  QMK_BUILD_DIR=/root/qmk_firmware/.build
+  QMK_KEYBOARD_DIR=/root/qmk_firmware/keyboards/"$PROJECT"
+
+  trap 'rm -rf "$QMK_KEYBOARD_DIR" "$QMK_BUILD_DIR"' EXIT INT TERM
+
+  cp -a "$FW_DIR" "$QMK_KEYBOARD_DIR"
+
+  for keymap in "$FW_DIR"/keymaps/*; do
+    km="${keymap##*/}"
+    qmk compile -kb "$PROJECT" -km "$km"
+    cp -a "$QMK_BUILD_DIR"/"$PROJECT"_"$km".bin "$BUILD_DIR"/
+
+    test -f "$BUILD_DIR"/"$PROJECT"_"$km".bin || _err 2 "Unable to build firmware"
+  done
+}
+
+interactive() {
+  xpod -Bl -- ghcr.io/qmk/qmk_base_container:latest /bin/bash -l
+}
+
+flash() {
+  dfu-util -a 0 -d 0483:DF11 -s 0x8000000:leave -D dist/"$PROJECT"_"${1:-default}".bin
 }
 
 help() {

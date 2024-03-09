@@ -1,0 +1,25 @@
+name: FW
+on:
+  push:
+    tags:
+    - 'v*.*.*'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    container:
+      image: ghcr.io/qmk/qmk_base_container:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: |
+          ./run fw
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: |
+            Firmware for the [Phalanx keyboard](https://www.rasch.co/phalanx).
+          files: |
+            dist/phalanx_default.bin

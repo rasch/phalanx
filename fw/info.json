@@ -1,0 +1,94 @@
+{
+  "keyboard_name": "phalanx",
+  "maintainer": "rasch",
+  "manufacturer": "rAsCH.co",
+  "url": "https://www.rasch.co/phalanx",
+  "bootloader_instructions": "press the reset button",
+  "tags": ["ortho", "split", "minimal", "30%"],
+  "bootloader": "stm32-dfu",
+  "processor": "STM32F072",
+  "build": {
+    "firmware_format": "bin",
+    "lto": true
+  },
+  "features": {
+    "caps_word": true,
+    "combo": true,
+    "command": false,
+    "console": false,
+    "dynamic_macro": true,
+    "extrakey": true,
+    "key_lock": true,
+    "key_override": true,
+    "mousekey": true,
+    "nkro": true,
+    "repeat_key": true,
+    "tap_dance": true
+  },
+  "tapping": {
+    "term": 175,
+    "term_per_key": true
+  },
+  "caps_word": {
+    "both_shifts_turns_on": true
+  },
+  "diode_direction": "COL2ROW",
+  "matrix_pins": {
+    "cols": ["A9", "B11", "B12", "B13"],
+    "rows": ["A14", "A15", "B3", "B4", "A10", "B14", "B15", "A8"]
+  },
+  "mouse_key": {
+    "delay": 10,
+    "interval": 16,
+    "time_to_max": 40,
+    "wheel_delay": 10,
+    "wheel_interval": 50,
+    "wheel_time_to_max": 100
+  },
+  "usb": {
+    "device_version": "0.1.0",
+    "pid": "0x001C",
+    "vid": "0xDAB5"
+  },
+  "layouts": {
+    "LAYOUT": {
+      "layout": [
+        {"matrix": [0, 0], "x": 0, "y": 1.1},
+        {"matrix": [0, 1], "x": 1, "y": 0.4},
+        {"matrix": [0, 2], "x": 2, "y": 0},
+        {"matrix": [0, 3], "x": 3, "y": 0.4},
+
+        {"matrix": [4, 0], "x": 7, "y": 0.4},
+        {"matrix": [4, 1], "x": 8, "y": 0},
+        {"matrix": [4, 2], "x": 9, "y": 0.4},
+        {"matrix": [4, 3], "x": 10, "y": 1.1},
+
+        {"matrix": [1, 0], "x": 0, "y": 2.1},
+        {"matrix": [1, 1], "x": 1, "y": 1.4},
+        {"matrix": [1, 2], "x": 2, "y": 1},
+        {"matrix": [1, 3], "x": 3, "y": 1.4},
+
+        {"matrix": [5, 0], "x": 7, "y": 1.4},
+        {"matrix": [5, 1], "x": 8, "y": 1},
+        {"matrix": [5, 2], "x": 9, "y": 1.4},
+        {"matrix": [5, 3], "x": 10, "y": 2.1},
+
+        {"matrix": [2, 0], "x": 0, "y": 3.1},
+        {"matrix": [2, 1], "x": 1, "y": 2.4},
+        {"matrix": [2, 2], "x": 2, "y": 2},
+        {"matrix": [2, 3], "x": 3, "y": 2.4},
+
+        {"matrix": [6, 0], "x": 7, "y": 2.4},
+        {"matrix": [6, 1], "x": 8, "y": 2},
+        {"matrix": [6, 2], "x": 9, "y": 2.4},
+        {"matrix": [6, 3], "x": 10, "y": 3.1},
+
+        {"matrix": [3, 2], "x": 3.2, "y": 3.6},
+        {"matrix": [3, 3], "x": 4.2, "y": 3.4},
+
+        {"matrix": [7, 0], "x": 5.7, "y": 3.4},
+        {"matrix": [7, 1], "x": 6.7, "y": 3.6}
+      ]
+    }
+  }
+}

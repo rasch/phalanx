@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if ! test "$1" = fw; then
+  opts='--env HOME=/home/kicad --user 0'
+  container='docker.io/kicad/kicad:nightly'
+fi
+
+# shellcheck disable=SC2086
+podman run \
+  --rm \
+  --volume "$(pwd)":/data \
+  --workdir /data \
+  $opts \
+  ${container:-ghcr.io/qmk/qmk_base_container:latest} \
+  ./run "${1:-help}"
