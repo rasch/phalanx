@@ -142,7 +142,7 @@
       (xy 1.045862 -2.509655)
     )
 
-    (stroke (width 0) (type solid)) (fill solid) (layer "B.Cu") (tstamp 4116e837-c486-408a-b8de-cd5df58c3a62))
+    (stroke (width 0) (type solid)) (fill solid) (layer "F.Cu") (tstamp 4116e837-c486-408a-b8de-cd5df58c3a62))
   (fp_poly
     (pts
       (xy 1.045862 -2.29069)
@@ -274,5 +274,5 @@
       (xy 1.045862 -2.509655)
     )
 
-    (stroke (width 0) (type solid)) (fill solid) (layer "B.Mask") (tstamp cdf97b41-7dfd-495a-b742-9ef3b575be0f))
+    (stroke (width 0) (type solid)) (fill solid) (layer "F.Mask") (tstamp cdf97b41-7dfd-495a-b742-9ef3b575be0f))
 )
