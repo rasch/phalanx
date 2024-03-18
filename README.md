@@ -40,6 +40,22 @@ dfu-util -a 0 -d 0483:DF11 -s 0x8000000:leave -D phalanx_default.bin
 For details on compiling the firmware, please see the [Github Actions
 workflow][build].
 
+## Keymap
+
+The base alpha layer is based on the [Engram] layout.
+
+```txt
+  B  Y  O  U       L  D  W  V
+  C  I  E  A       H  T  S  N
+  G  X  J  K       R  M  F  P
+            ␣    ⌫
+```
+
+[QMK] features such as `Mod-Tap`, `Layers`, `Combos` and `Tap Dance` are
+utilized to maximize Phalanx's features with only 27% of the keys from a
+standard keyboard. Please visit the [Phalanx website][phalanx] for details of
+the layout.
+
 ## License
 
 [Solderpad Hardware License v2.1](LICENSE)
@@ -50,4 +66,5 @@ workflow][build].
 [image-pcb]: https://i.imgur.com/gtF0UkI.png
 [build]: https://github.com/rasch/phalanx/blob/main/.github/workflows/fw.yml
 [engram]: https://engram.dev/
+[qmk]: https://docs.qmk.fm/#/
 [//]: https://en.wikipedia.org/wiki/Phalanx_bone
