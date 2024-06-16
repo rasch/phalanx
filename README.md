@@ -27,6 +27,17 @@ placed in the `dist` directory.
 
 ![The Phalanx Keyboard, Version 0.1.0][image-pcb]
 
+In addition to the parts listed in the BOM, the following will be needed for a
+complete keyboard:
+
+- 28 x Kailh Low Profile Choc Switches (PG1350)
+- 28 x 1u Choc Keycaps (such as MBK, I prefer the convex keys for the thumbs)
+- USB-C cable to connect to device
+- RJ45 Ethernet Cable to connect keyboard halves (the monoprice micro slimrun
+  patch cable works well, I've used the 6 inch cable)
+- Some rubber feet or neoprene adhesive rubber pads to prevent the board from
+  sliding all over the place
+
 ## Firmware Installation
 
 Download the firmware, `phalanx_default.bin`, from [the Phalanx releases
