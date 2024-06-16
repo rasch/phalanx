@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Phalanx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="img-row">
+    <div class="img-col-wide">
+      <img
+        src="https://i.imgur.com/y4TYriW.jpg"
+        alt="The Phalanx keyboard, powered on, with the halves slightly overlapping"
+      >
+    </div>
+    <div class="img-col">
+      <img
+        src="https://i.imgur.com/BJTCeCS.jpg"
+        alt="Just the left half of the Phalanx"
+      >
+      <img
+        src="https://i.imgur.com/5Rbtl6o.jpg"
+        alt="The Phalanx keyboard chillin'on the desk"
+      >
+    </div>
+  </div>
+  <h1 class="title">Phalanx</h1>
+  <p class="description">
+    The Phalanx is an open-source split keyboard with an ortholinear key
+    arrangement. There are only <strong>28 keys</strong> (the same number of
+    phalanges in human hands), which makes working with layers necessary. For
+    typical writing, there are only two layers to learn (plus their shifted
+    counterparts). There is a 3rd layer for navigation and a 4th for the system
+    keys.
+  </p>
+  <div id="kbd"></div>
+  <footer>
+    <h2>How to Get a Phalanx?</h2>
+    <p>
+      The Phalanx is a DIY keyboard. Please visit the
+      <a href="https://github.com/rasch/phalanx/releases/">Releases</a>
+      page to download the files required for
+      <abbr title="Printed Circuit Board">PCB</abbr>
+      manufacturing and/or assembly. Check out the
+      <a href="https://github.com/rasch/phalanx">source code repository</a>
+      for additional details.
+    </p>
+    <pre><code>git clone https://github.com/rasch/phalanx.git</code></pre>
+    <ul>
+      <li>
+        <a class="repo-links" href="https://github.com/rasch/phalanx">
+          Source Code
+        </a>
+      </li>
+      <li>
+        <a class="repo-links" href="https://github.com/rasch/phalanx/releases/">
+          Releases
+        </a>
+      </li>
+    </ul>
+  </footer>
+  <script type="module">
+    import { render } from "./script.js"
+    import { keymap } from "./layouts/default.js"
+    render(keymap)(0)
+  </script>
+</body>
+</html>

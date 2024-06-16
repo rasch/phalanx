@@ -1,0 +1,482 @@
+/***************************** 
+ | Base 
+ *****************************/
+
+ @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+:where(html) {
+  --bg: #282a36;
+  --fg: #f8f8f2;
+  --shadow: #6272a499;
+  --link: #50fa7b;
+  --bg2: #44475a;
+  --key: #6272a4;
+  --pressed: #bd93f9;
+  --bg-trans: #282a3699;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: "Montserrat", sans-serif;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 3.25rem;
+  margin-top: -3.25rem;
+  background-color: var(--bg-trans);
+  font-variant: small-caps;
+  font-weight: 300;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+p {
+  max-width: 768px;
+  margin: 1rem auto;
+  padding: 1rem;
+  font-size: 1rem;
+  line-height: 1.618;
+}
+
+p.description:first-of-type::first-letter {
+  -webkit-initial-letter: 2;
+  initial-letter: 2;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin-right: 2px;
+}
+
+@supports not ((initial-letter: 2) or (-webkit-initial-letter: 2)) {
+  p.description:first-of-type::first-letter {
+    font-size: 3.2rem;
+    float: left;
+    margin: 0.35rem 0.25rem;
+  }
+}
+
+a,
+a:hover,
+a:visited {
+  color: var(--link);
+}
+
+kbd {
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.15rem;
+  background-color: var(--bg2);
+  font-size: 0.9rem;
+}
+
+/***************************** 
+ | Image Header 
+ *****************************/
+
+img {
+  width: 100%;
+  outline: 6px solid var(--bg);
+}
+
+.img-col-wide {
+  max-width: 100%;
+}
+
+.img-row {
+  max-width: 2160px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.img-col {
+  display: flex;
+  max-width: 100%;
+}
+
+@media (min-height: 800px) {
+  .img-col-wide {
+    max-width: 100%;
+  }
+
+  .img-row {
+    flex-direction: column;
+  }
+
+  .img-col {
+    max-width: 100%;
+    flex-direction: row;
+  }
+
+  .img-col img {
+    width: 50%;
+  }
+}
+
+@media (min-width: 650px) {
+  .img-col-wide {
+    max-width: 33.33%;
+  }
+
+  .img-row {
+    flex-direction: row;
+  }
+
+  .img-col {
+    max-width: 66.66%;
+    flex-direction: row;
+  }
+
+  .img-col img {
+    width: 50%;
+  }
+}
+
+@media (min-width: 650px) and (min-height: 800px) {
+  .img-col-wide {
+    max-width: 66.66%;
+  }
+
+  .img-row {
+    flex-direction: row;
+  }
+
+  .img-col {
+    max-width: 33.33%;
+    flex-direction: column;
+  }
+
+  .img-col img {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1921px) {
+  .img-col-wide {
+    max-width: 33.33%;
+  }
+
+  .img-row {
+    flex-direction: row;
+  }
+
+  .img-col {
+    max-width: 66.66%;
+    flex-direction: row;
+  }
+
+  .img-col img {
+    width: 50%;
+  }
+}
+
+/***************************** 
+ | Footer 
+ *****************************/
+
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--bg2);
+  margin-top: 2rem;
+}
+
+footer p {
+  max-width: 512px;
+}
+
+footer pre code {
+  background-color: var(--bg);
+  padding: 1rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+footer ul {
+  padding: 0;
+  display: flex;
+  gap: 2rem;
+}
+
+footer ul li {
+  list-style-type: none;
+}
+
+.repo-links,
+.repo-links:visited {
+  color: var(--fg);
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.repo-links:hover {
+  background-color: var(--shadow);
+  transition: background-color linear 0.4s;
+}
+
+/***************************** 
+ | Keyboard 
+ *****************************/
+
+figure {
+  margin: 0;
+}
+
+#kbd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-block-start: 2rem;
+}
+
+#kbd .row {
+  display: flex;
+}
+
+/***************************** 
+ | Keys
+ *****************************/
+
+#kbd .keymap .key,
+#kbd .keymap .space {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+  padding: 2px;
+  line-height: 1;
+}
+
+#kbd .keymap .key {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 0.15rem;
+  text-align: center;
+  font-size: 0.8rem;
+  background-color: var(--key);
+  box-shadow: 2px 2px var(--shadow);
+}
+
+#kbd .keymap .key.active {
+  background-color: var(--pressed);
+  box-shadow: unset;
+}
+
+#kbd .keymap .key.length-3,
+#kbd .keymap .key.length-4,
+#kbd .keymap .key.length-5,
+#kbd .keymap .key.length-6,
+#kbd .keymap .key.length-7 {
+  font-size: 0.6rem;
+}
+
+#kbd .keymap .key.length-8,
+#kbd .keymap .key.length-9,
+#kbd .keymap .key.length-10,
+#kbd .keymap .key.length-11,
+#kbd .keymap .key .hold {
+  font-size: 0.5rem;
+}
+
+/***************************** 
+ | Controls
+ *****************************/
+
+#kbd .controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 2rem 0;
+}
+
+#kbd .controls button {
+  border: 1px solid currentColor;
+  padding: 0.25rem;
+  background-color: transparent;
+  color: var(--fg);
+  text-transform: capitalize;
+}
+
+#kbd .controls .selected {
+  color: var(--link);
+}
+
+/***************************** 
+ | Combos
+ *****************************/
+
+#kbd .combos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 768px;
+  justify-content: center;
+}
+
+#kbd .combos .combo {
+  padding: 0 0.5rem 0.5rem;
+  border-radius: 0.25rem;
+  background: var(--bg2);
+}
+
+#kbd .combos .combo .label {
+  margin-top: 0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+#kbd .combos .combo .key,
+#kbd .combos .combo .space {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+}
+
+#kbd .combos .combo .key {
+  background: var(--key);
+}
+
+#kbd .combos .combo .key.pressed {
+  background: var(--pressed);
+}
+
+/***************************** 
+ | Phalanx Keymap
+ *****************************/
+
+#kbd.phalanx .keymap {
+  margin-top: 72px;
+}
+
+#kbd.phalanx .keymap .row {
+  margin-top: -34px;
+}
+
+#kbd.phalanx .keymap .row:nth-of-type(4) {
+  margin-top: -26px;
+  margin-left: 10px;
+}
+
+#kbd.phalanx .keymap .row .key:nth-of-type(1),
+#kbd.phalanx .keymap .row .key:nth-of-type(11) {
+  margin-top: 36px;
+}
+
+#kbd.phalanx .keymap .row .key:nth-of-type(2),
+#kbd.phalanx .keymap .row .key:nth-of-type(4),
+#kbd.phalanx .keymap .row .key:nth-of-type(8),
+#kbd.phalanx .keymap .row .key:nth-of-type(10) {
+  margin-top: 16px;
+}
+
+#kbd.phalanx .keymap .row:nth-of-type(4) span:nth-of-type(6) {
+  width: 10px;
+}
+
+@media (min-width: 550px) {
+  #kbd.phalanx .keymap {
+    margin-bottom: 30px;
+  }
+}
+
+@media (min-width: 650px) {
+  #kbd.phalanx .keymap {
+    margin-top: 100px;
+    margin-bottom: 60px;
+  }
+}
+
+@media (min-width: 740px) {
+  #kbd.phalanx .keymap {
+    margin-top: 120px;
+    margin-bottom: 80px;
+  }
+}
+
+/***************************** 
+ | Phalanx Combos
+ *****************************/
+
+#kbd.phalanx .combos .combo .label {
+  margin-bottom: 12px;
+}
+
+#kbd.phalanx .combos .combo .row {
+  margin-top: -11px;
+}
+
+#kbd.phalanx .combos .combo .row .key:nth-of-type(1),
+#kbd.phalanx .combos .combo .row .key:nth-of-type(11) {
+  margin-top: 12px;
+}
+
+#kbd.phalanx .combos .combo .row .key:nth-of-type(2),
+#kbd.phalanx .combos .combo .row .key:nth-of-type(4),
+#kbd.phalanx .combos .combo .row .key:nth-of-type(8),
+#kbd.phalanx .combos .combo .row .key:nth-of-type(10) {
+  margin-top: 5px;
+}
+
+#kbd.phalanx .combos .combo .row:nth-child(5) {
+  margin-top: -9px;
+  margin-left: 2px;
+}
+
+#kbd.phalanx .combos .combo .row:nth-child(5) span:nth-of-type(6) {
+  width: 5px;
+}
+
+.content table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+  box-shadow:
+    0 1px 0 0 currentColor,
+    0 -1px 0 0 currentColor;
+}
+
+/***************************** 
+ | Tables
+ *****************************/
+
+table {
+  margin: 3rem auto 1rem auto;
+}
+
+table > thead {
+  box-shadow: 0 1px 0 0 currentColor;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.1rem 1rem;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  text-align: right;
+}
+
+td {
+  line-height: 1.5;
+}
