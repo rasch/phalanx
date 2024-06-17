@@ -4,6 +4,7 @@ BUILD_DIR=./dist
 FW_DIR=./fw
 PCB_DIR=./pcb
 PROJECT=phalanx
+HOME="${HOME:-/root}"
 
 _msg() {
   printf '\e[32m%s %s\e[0m\n' "$1" "$2"
@@ -194,16 +195,16 @@ pcb() {
 fw() {
   _init
 
-  if ! test -d /root/qmk_firmware; then
+  if ! test -d "$HOME"/qmk_firmware; then
     python3 -m pip install qmk
     qmk setup --yes
 
     mkdir -p /etc/udev/rules.d
-    cp -a /root/qmk_firmware/util/udev/50-qmk.rules /etc/udev/rules.d/
+    cp -a "$HOME"/qmk_firmware/util/udev/50-qmk.rules /etc/udev/rules.d/
   fi
 
-  QMK_BUILD_DIR=/root/qmk_firmware/.build
-  QMK_KEYBOARD_DIR=/root/qmk_firmware/keyboards/"$PROJECT"
+  QMK_BUILD_DIR="$HOME"/qmk_firmware/.build
+  QMK_KEYBOARD_DIR="$HOME"/qmk_firmware/keyboards/"$PROJECT"
 
   trap 'rm -rf "$QMK_KEYBOARD_DIR" "$QMK_BUILD_DIR"' EXIT INT TERM
 
