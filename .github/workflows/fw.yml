@@ -19,7 +19,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          body: |
-            Firmware for the [Phalanx keyboard](https://www.rasch.co/phalanx).
           files: |
             dist/phalanx_default.bin

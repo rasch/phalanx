@@ -25,10 +25,11 @@ jobs:
           body: |
             For the DIYers that want to build a [Phalanx keyboard](https://www.rasch.co/phalanx).
 
-            - plot.zip ...... gerber and drill files
-            - bom.csv ....... bill of materials
-            - cpl.csv ....... component placement list
-            - ibom.html ..... interactive BOM/CPL
+            - plot.zip .............. gerber and drill files
+            - bom.csv ............... bill of materials
+            - cpl.csv ............... component placement list
+            - ibom.html ............. interactive BOM/CPL
+            - phalanx_default.bin ... the firmware
           files: |
             dist/plot.zip
             dist/bom.csv
