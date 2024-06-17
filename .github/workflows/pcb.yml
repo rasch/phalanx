@@ -9,7 +9,7 @@ jobs:
     permissions:
       contents: write
     container:
-      image: kicad/kicad:nightly
+      image: kicad/kicad:8.0
       options: --user root
       env:
         KICAD_CONFIG_HOME: /home/kicad/.config/kicad

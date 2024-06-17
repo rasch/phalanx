@@ -19,11 +19,11 @@ is provided to aid with self-assembly.
 During development, it may be preferable (faster) to run rule checks and test
 builds locally. There is a `run` shell script in the root of this repository
 that is used by the CI/CD for building releases. This script can be run
-directly (`./run pcb`), but it requires the `kicad-cli` nightly release to be
+directly (`./run pcb`), but it requires the `kicad-cli` 8.0+ release to be
 installed. Instead, if `podman` is available, it is recommended to use the
 `build` script. This script just runs the `./run` script in the
-`kicad/kicad:nightly` container. The build files and reports (ERC/DRC) are
-placed in the `dist` directory.
+`kicad/kicad:8.0` container. The build files and reports (ERC/DRC) are placed in
+the `dist` directory.
 
 ![The Phalanx Keyboard, Version 0.1.0][image-pcb]
 

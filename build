@@ -2,7 +2,7 @@
 
 if ! test "$1" = fw; then
   opts='--env HOME=/home/kicad --user 0'
-  container='docker.io/kicad/kicad:nightly'
+  container='docker.io/kicad/kicad:8.0'
 fi
 
 # shellcheck disable=SC2086
