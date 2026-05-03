@@ -5,7 +5,7 @@ export const keymap = {
       title: "alpha",
       description: `<p>
         The alpha layer's key arrangement is based on the
-        <a href="https://engram.dev">Engram</a>
+        <a href="https://github.com/binarybottle/engram">Engram</a>
         layout. The home row keys on both hands utilize
         <a href="https://docs.qmk.fm/#/mod_tap">Mod-Tap</a>
         for access to <kbd>Shift</kbd>, <kbd>Ctrl</kbd>, <kbd>Alt</kbd> and
